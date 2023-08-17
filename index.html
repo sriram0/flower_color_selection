@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.2/lib/p5.js"></script>
+    <script>
+        function setup(){
+            createCanvas(600, 500);
+        }
+        tf=[];
+        cf=0;
+        d=0;
+        fc=[[255, 0, 0], [0, 0, 255]];
+        function leaf(x, y, r){
+            translate(x, y);
+            rotate(r);
+            beginShape();
+            curveVertex(10, 0);
+            curveVertex(0, 0);
+            curveVertex(-6, 3);
+            curveVertex(-16, 9);
+            curveVertex(-25, 7);
+            curveVertex(-30, 0);
+            curveVertex(-25, -7);
+            curveVertex(-16, -9);
+            curveVertex(-6, -3);
+            curveVertex(10, 0);
+            endShape();
+            resetMatrix();
+        }
+        function flower(x, y, s, c){
+            translate(x, y);
+            scale(s/50);
+            fill(c);
+            beginShape();
+            curveVertex(20, 0);
+            curveVertex(0, 0);
+            curveVertex(-11, -8);
+            curveVertex(-9, -13);
+            curveVertex(-9, -25);
+            curveVertex(-11, -27);
+            curveVertex(11, -27);
+            curveVertex(9, -25);
+            curveVertex(9, -13);
+            curveVertex(11, -8);
+            curveVertex(0, 0);
+            curveVertex(-20, 0);
+            endShape();
+            resetMatrix();
+        }
+        function draw(){
+            textStyle(NORMAL)
+            angleMode(DEGREES);
+            background(0, 255, 255);
+            noStroke();
+            fill(0, 200, 0);
+            rect(0, 400, 600, 100);
+            textSize(50);
+            textAlign(CENTER, CENTER);
+            textFont("serif")
+            fill("red");
+            text("Happy 61st Birthday", 300, 100);
+            textSize(30);
+            fill("dodgerblue");
+            text("Nanamma", 300, 150);
+            textSize(20);
+            fill("blue");
+            text("61 is the 18th prime number", 300, 180);
+            stroke(50, 230, 0);
+            fill(20, 255, 20);
+            strokeWeight(5);
+            line(300, 400, 300, 400-Math.min(cf, 70));
+            noStroke();
+            leaf(300-d, 400-Math.min(cf, 120), 30)
+            leaf(300+d, 400-Math.min(cf, 120), 150)
+            if(cf>70){
+                if(cf<120){
+                    d++;
+                }
+                //strokeWeight(50);
+                stroke(50, 230, 0)
+                line(300, 330, 300-d, 400-Math.min(cf, 120));
+                line(300, 330, 300+d, 400-Math.min(cf, 120));
+                noStroke();
+                leaf(300-d, 400-Math.min(cf, 120), 150)
+                leaf(300+d, 400-Math.min(cf, 120), 30)
+            }
+            cf++;
+            flower(250, 278, Math.max(Math.min(cf-120, 50), 0), color(fc[0][0], fc[0][1], fc[0][2]))
+            flower(350, 278, Math.max(Math.min(cf-120, 50), 0), color(fc[1][0], fc[1][1], fc[1][2]))
+            if(cf>220){  
+                textSize(15);
+                textStyle(BOLD)
+                fill("orangered");
+                text("Click or tap on one side of the plant\nThe chosen colour and a mutated version will be displayed on the next plant", 300, 440);
+            }
+        }
+        function mousePressed(){
+            if(cf>220 && mouseX<600 && mouseY<500){
+                cf=0;
+                d=0;
+                if(mouseX<300){
+                    fc=[[fc[0][0], fc[0][1], fc[0][2]], [Math.max(Math.min(fc[0][0]+(Math.round(Math.random()*2-1)*50), 255), 0), Math.max(Math.min(fc[0][1]+(Math.round(Math.random()*2-1)*50), 255), 0), Math.max(Math.min(fc[0][2]+(Math.round(Math.random()*2-1)*50), 255), 0)]]
+                }else{
+                    fc=[[fc[1][0], fc[1][1], fc[1][2]], [Math.max(Math.min(fc[1][0]+(Math.round(Math.random()*2-1)*50), 255), 0), Math.max(Math.min(fc[1][1]+(Math.round(Math.random()*2-1)*50), 255), 0), Math.max(Math.min(fc[1][2]+(Math.round(Math.random()*2-1)*50), 255), 0)]]
+                }
+                console.log(fc)
+            }
+        }
+    </script>
+</body>
+</html>
